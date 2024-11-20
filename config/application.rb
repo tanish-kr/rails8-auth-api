@@ -40,5 +40,17 @@ module Rails8AuthApi
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    config.generators do |g|
+      # Don't generate system test files.
+      g.system_tests = nil
+      g.stylesheets false
+      g.javascripts false
+      g.helper false
+      g.jbuilder false
+      g.template_engine :erb
+      # g.test_framework :rspec, routing_specs: false, helper_specs: false, fixture: true
+      # g.fixture_replacement :factory_bot, dir: "spec/support/factories"
+    end
   end
 end

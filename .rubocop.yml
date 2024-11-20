@@ -6,3 +6,78 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
+
+Layout/LineLength:
+  Max: 100
+  IgnoredPatterns: ['(\A|\s)#']
+
+# case文のインデント
+# https://docs.rubocop.org/rubocop/cops_layout.html#layoutcaseindentation
+Layout/CaseIndentation:
+  Enabled: true
+  EnforcedStyle: case
+
+# 余分なスペースのチェック
+# https://docs.rubocop.org/rubocop/cops_layout.html#layoutextraspacing
+Layout/ExtraSpacing:
+  Enabled: false
+
+# メソッドの最初の引数のインデント
+# https://docs.rubocop.org/rubocop/cops_layout.html#layoutfirstparameterindentation
+Layout/FirstParameterIndentation:
+  Enabled: true
+  EnforcedStyle: align_parentheses
+
+# コメントのインデント
+# https://docs.rubocop.org/rubocop/cops_layout.html#layoutcommentindentation
+Layout/CommentIndentation:
+  Enabled: false
+
+# https://docs.rubocop.org/rubocop/cops_metrics.html#metricsabcsize
+Metrics/AbcSize:
+  Max: 20
+
+# メソッドの長さ
+# https://docs.rubocop.org/rubocop/cops_metrics.html#metricsmethodlength
+Metrics/MethodLength:
+  Max: 20
+
+# メソッドのパラメータの数をチェック
+# https://docs.rubocop.org/rubocop/cops_metrics.html#metricsparameterlists
+Metrics/ParameterLists:
+  Max: 10
+
+# メソッドの複雑度
+# https://docs.rubocop.org/rubocop/cops_metrics.html#metricsperceivedcomplexity
+Metrics/PerceivedComplexity:
+  Max: 8
+
+# コメント内の非ASCII文字をチェック
+# https://docs.rubocop.org/rubocop/cops_style.html#styleasciicomments
+Style/AsciiComments:
+  Enabled: false
+
+# classのチェックメソッドの指定
+# https://docs.rubocop.org/rubocop/cops_style.html#styleclasscheck
+Style/ClassCheck:
+  EnforcedStyle: is_a?
+
+# class/moduleのTopレベルのコメントの有無
+# https://docs.rubocop.org/rubocop/cops_style.html#styledocumentation
+Style/Documentation:
+  Enabled: false
+
+# 大きい数値の間に_を入れるかをチェック
+# https://docs.rubocop.org/rubocop/cops_style.html#stylenumericliterals
+Style/NumericLiterals:
+  MinDigits: 6
+
+# raiseの引数の書き方をチェック
+# https://docs.rubocop.org/rubocop/cops_style.html#styleraiseargs
+Style/RaiseArgs:
+  EnforcedStyle: exploded
+
+# quotoの種類をチェック
+# https://docs.rubocop.org/rubocop/cops_style.html#stylestringliterals
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
