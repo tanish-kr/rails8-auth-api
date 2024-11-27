@@ -9,4 +9,19 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  namespace :api do
+    namespace :v1 do
+      namespace :auth do
+        resource :sign_in, only: :create
+        resource :sign_out, only: :destroy
+        resource :sign_up, only: :create do
+          scope module: :sign_up, param: :token do
+            resource :callback, only: :create
+          end
+        end
+        resource :password_reset, only: [ :create, :update ]
+      end
+    end
+  end
 end
