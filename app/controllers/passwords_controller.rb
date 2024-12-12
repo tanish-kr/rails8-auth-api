@@ -1,4 +1,4 @@
-class PasswordResetsController < ApplicationController
+class PasswordsController < ApplicationController
   allow_unauthenticated_access
   before_action :set_user_by_token, only: %i[ edit update ]
 
@@ -11,7 +11,7 @@ class PasswordResetsController < ApplicationController
     end
 
     redirect_to new_session_path,
-notice: "Password reset instructions sent (if user with that email address exists)."
+      notice: "Password reset instructions sent (if user with that email address exists)."
   end
 
   def edit
