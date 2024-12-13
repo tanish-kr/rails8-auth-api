@@ -45,6 +45,16 @@ RSpec.describe User, type: :model do
         expect(Rails.cache.read(key)).not_to be_nil
       end
     end
+
+    context "when email is exists" do
+      before do
+        create(:user, email: "test@example.com", password: "password")
+      end
+
+      let(:user) { described_class.new(email: "test@example.com", password: "password") }
+
+      it { expect { subject }.to raise_error(ActiveRecord::RecordInvalid) }
+    end
   end
 
   describe "#read_confirmation_token" do
