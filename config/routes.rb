@@ -17,7 +17,7 @@ Rails.application.routes.draw do
         resource :sign_out, only: :destroy
         resource :sign_up, only: :create do
           scope module: :sign_up, param: :token do
-            resource :callback, only: :create
+            resource :callback, only: [ :create, :show ]
           end
         end
         resource :password_reset, only: [ :create, :update ]
