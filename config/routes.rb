@@ -15,10 +15,9 @@ Rails.application.routes.draw do
       namespace :auth do
         resource :sign_in, only: :create
         resource :sign_out, only: :destroy
-        resource :sign_up, only: :create do
-          scope module: :sign_up, param: :token do
-            resource :callback, only: [ :create, :show ]
-          end
+        resource :sign_up, only: :create
+        resources :sign_up, only: [], param: :token do
+          resource :callback, only: [ :create, :show ], module: :sign_up
         end
         resource :password_reset, only: [ :create, :update ]
       end

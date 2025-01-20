@@ -57,14 +57,12 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "#read_confirmation_token" do
-    let(:user) { described_class.new(email: "test@example.com", password: "password") }
-
+  describe ".read_confirmation_token" do
     context "when token not found" do
       let(:key) { "notfound" }
 
       it "raises RecordNotFound error" do
-        expect { user.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { User.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -76,23 +74,25 @@ RSpec.describe User, type: :model do
       end
 
       it "raises RecordNotFound error" do
-        expect { user.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { User.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
     context "when expired out to payload" do
+      let(:user) { described_class.new(email: "test@example.com", password: "password") }
       let(:key) { travel_to(25.hours.ago) { user.generate_confirmation_token } }
 
       it "raises RecordNotFound error" do
-        expect { user.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { User.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
     context "when valid payload" do
+      let(:user) { described_class.new(email: "test@example.com", password: "password") }
       let(:key) { user.generate_confirmation_token }
 
       it "return payload" do
-        payload = user.read_confirmation_token(key)
+        payload = User.read_confirmation_token(key)
         expect(payload).not_to be_nil
         expect(payload[:email]).to eq("test@example.com")
       end
