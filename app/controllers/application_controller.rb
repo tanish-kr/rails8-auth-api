@@ -1,10 +1,14 @@
 class ApplicationController < ActionController::API
   include Authentication
 
+  class BadParameterError < StandardError; end
+
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :render_bad_request
   rescue_from ActionController::ParameterMissing, with: :render_bad_request
   rescue_from ActionController::RoutingError, with: :render_not_found
+  rescue_from BadParameterError, with: :render_bad_request
+  rescue_from AuthenticationError, with: :render_unauthorized
 
   private
 
