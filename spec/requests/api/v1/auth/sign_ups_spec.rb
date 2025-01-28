@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Api::V1::Auth::SignUps", type: :request do
   include Mail::Matchers

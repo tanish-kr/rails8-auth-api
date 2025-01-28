@@ -14,27 +14,27 @@ class ApplicationController < ActionController::API
 
   private
 
-  def render_error(title:, status:, details: nil)
-    render json: { title:, status:, details: }, status: status
-  end
+    def render_error(title:, status:, details: nil)
+      render json: { title:, status:, details: }, status: status
+    end
 
-  def render_bad_request(error)
-    render_error(title: error.message, status: :bad_request)
-  end
+    def render_bad_request(error)
+      render_error(title: error.message, status: :bad_request)
+    end
 
-  def render_not_found(error)
-    render_error(title: error.message, status: :not_found)
-  end
+    def render_not_found(error)
+      render_error(title: error.message, status: :not_found)
+    end
 
-  def render_unauthorized(error)
-    render_error(title: error.message, status: :unauthorized)
-  end
+    def render_unauthorized(error)
+      render_error(title: error.message, status: :unauthorized)
+    end
 
-  def render_unprocessable_entity(error)
-    render_error(title: error.message, status: :unprocessable_entity)
-  end
+    def render_unprocessable_entity(error)
+      render_error(title: error.message, status: :unprocessable_entity)
+    end
 
-  def render_internal_server_error(error)
-    render_error(title: error.message, status: :internal_server_error)
-  end
+    def render_internal_server_error(error)
+      render_error(title: error.message, status: :internal_server_error)
+    end
 end

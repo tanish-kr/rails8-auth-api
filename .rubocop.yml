@@ -2,6 +2,8 @@
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 require:
   - rubocop-rspec
+  # - rubocop-performance
+  # - rubocop-rails
 
 # Overwrite or add rules to create your own house style
 #
@@ -36,6 +38,12 @@ Style:
 Layout/LineLength:
   Max: 120
   # IgnoredPatterns: ['(\A|\s)#']
+
+Layout/IndentationWidth:
+  Enabled: true
+
+Layout/IndentationConsistency:
+  Enabled: true
 
 # case文のインデント
 # https://docs.rubocop.org/rubocop/cops_layout.html#layoutcaseindentation

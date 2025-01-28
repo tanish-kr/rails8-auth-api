@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
-  include_context 'cache use to memory store'
+  include_context "cache use to memory store"
 
   describe "::validates" do
     subject { user.valid? }
@@ -31,6 +31,7 @@ RSpec.describe User, type: :model do
 
   describe "#generate_confirmation_token" do
     subject(:key) { user.generate_confirmation_token }
+
     context "when email is empty" do
       let(:user) { described_class.new(email: nil) }
 
@@ -64,7 +65,7 @@ RSpec.describe User, type: :model do
       let(:key) { "notfound" }
 
       it "raises RecordNotFound error" do
-        expect { User.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { described_class.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -76,7 +77,7 @@ RSpec.describe User, type: :model do
       end
 
       it "raises RecordNotFound error" do
-        expect { User.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { described_class.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -85,7 +86,7 @@ RSpec.describe User, type: :model do
       let(:key) { travel_to(25.hours.ago) { user.generate_confirmation_token } }
 
       it "raises RecordNotFound error" do
-        expect { User.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { described_class.read_confirmation_token(key) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -94,7 +95,7 @@ RSpec.describe User, type: :model do
       let(:key) { user.generate_confirmation_token }
 
       it "return payload" do
-        payload = User.read_confirmation_token(key)
+        payload = described_class.read_confirmation_token(key)
         expect(payload).not_to be_nil
         expect(payload[:email]).to eq("test@example.com")
       end
