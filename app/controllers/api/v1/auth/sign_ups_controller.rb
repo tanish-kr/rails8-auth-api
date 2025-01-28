@@ -20,7 +20,7 @@ module Api
         private
 
           def create_params
-            params.require(:user).permit(:email)
+            params.expect(user: [ :email ])
           end
       end
     end
