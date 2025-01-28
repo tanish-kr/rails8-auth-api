@@ -1,4 +1,9 @@
-class Api::V1::Auth::SignInsController < ApplicationController
+# frozen_string_literal: true
+
+module Api
+  module V1
+  module Auth
+  class SignInsController < ApplicationController
   allow_unauthenticated_access only: %i[ create ]
   rate_limit to: 10, within: 3.minutes, only: :create
 
@@ -12,9 +17,12 @@ class Api::V1::Auth::SignInsController < ApplicationController
     render json: { access_token: access_token, refresh_token: refresh_token }, status: :ok
   end
 
-  private
+    private
 
   def user_params
     params.require(:user).permit(:email, :password)
+  end
+  end
+  end
   end
 end

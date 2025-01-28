@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
 
   normalizes :email, with: ->(e) { e.strip.downcase }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true,
-    uniqueness: { case_insensitive: true }
+                    uniqueness: { case_insensitive: true }
 
   class << self
     def read_confirmation_token(key)

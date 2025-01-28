@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_context "cache use to memory store" do
   let(:memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
   let(:cache) { Rails.cache }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe AuthMailer, type: :mailer do
@@ -7,7 +9,7 @@ RSpec.describe AuthMailer, type: :mailer do
 
       it "send confirmation mail" do
         described_class.confirmation_email(user).deliver_now
-        mail =  ActionMailer::Base.deliveries.last
+        mail = ActionMailer::Base.deliveries.last
         expect(mail.to.first).to eq("test@example.com")
         expect(mail.subject).to eq("Please confirm your email address")
         expect(mail.html_part.body.raw_source).to match(%r{/auth/confirm\?token=})

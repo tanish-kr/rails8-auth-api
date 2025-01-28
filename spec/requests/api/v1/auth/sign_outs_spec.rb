@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe "Api::V1::Auth::SignOuts", type: :request do
@@ -7,12 +9,11 @@ RSpec.describe "Api::V1::Auth::SignOuts", type: :request do
     let(:token) { JsonWebToken.encode({ user_id: session.user_id, session_id: session.id }, 15.minutes.from_now) }
     let(:headers) do
       {
-         'Content-Type' => 'application/json',
-         'Accept' => 'application/json',
-         'Authorization' => token
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json',
+        'Authorization' => token
       }
     end
-
 
     it "session does deleted" do
       expect { delete api_v1_auth_sign_out_path, headers: headers }.to change { Session.count }.by(-1)

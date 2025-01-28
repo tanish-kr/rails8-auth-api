@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -16,9 +18,9 @@ Rails.application.routes.draw do
         resource :sign_out, only: :destroy
         resource :sign_up, only: :create
         resources :sign_up, only: [], param: :token do
-          resource :callback, only: [ :create, :show ], module: :sign_up
+          resource :callback, only: %i[create show], module: :sign_up
         end
-        resource :password_reset, only: [ :create, :update ]
+        resource :password_reset, only: %i[create update]
       end
     end
   end

@@ -1,4 +1,10 @@
-class Api::V1::Auth::SignUp::CallbacksController < ApplicationController
+# frozen_string_literal: true
+
+module Api
+  module V1
+  module Auth
+  module SignUp
+  class CallbacksController < ApplicationController
   allow_unauthenticated_access
   before_action :set_payload
 
@@ -20,7 +26,7 @@ class Api::V1::Auth::SignUp::CallbacksController < ApplicationController
     end
   end
 
-  private
+    private
 
   def set_payload
     @payload = User.read_confirmation_token(params[:sign_up_token])
@@ -28,5 +34,9 @@ class Api::V1::Auth::SignUp::CallbacksController < ApplicationController
 
   def user_params
     params.require(:user).permit(:password, :password_confirmation)
+  end
+  end
+  end
+  end
   end
 end

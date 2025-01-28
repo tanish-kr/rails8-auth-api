@@ -1,5 +1,7 @@
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+require:
+  - rubocop-rspec
 
 # Overwrite or add rules to create your own house style
 #
@@ -7,9 +9,33 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
 
+# Rubocopp omakase was disabled Cops
+Bundler:
+  Enabled: true
+Gemspec:
+  Enabled: true
+Layout:
+  Enabled: true
+Lint:
+  Enabled: true
+Metrics:
+  Enabled: true
+Naming:
+  Enabled: true
+Performance:
+  Enabled: true
+  Exclude:
+    - "spec/**/*"
+Rails:
+  Enabled: true
+Security:
+  Enabled: true
+Style:
+  Enabled: true
+
 Layout/LineLength:
   Max: 120
-  IgnoredPatterns: ['(\A|\s)#']
+  # IgnoredPatterns: ['(\A|\s)#']
 
 # case文のインデント
 # https://docs.rubocop.org/rubocop/cops_layout.html#layoutcaseindentation

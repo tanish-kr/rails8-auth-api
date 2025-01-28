@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Authentication
   extend ActiveSupport::Concern
   class AuthenticationError < StandardError; end
@@ -13,6 +15,7 @@ module Authentication
   end
 
   private
+
     def authenticated?
       Current.user.present?
     end

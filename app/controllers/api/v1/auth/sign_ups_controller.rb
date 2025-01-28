@@ -1,4 +1,9 @@
-class Api::V1::Auth::SignUpsController < ApplicationController
+# frozen_string_literal: true
+
+module Api
+  module V1
+  module Auth
+  class SignUpsController < ApplicationController
   allow_unauthenticated_access
   def create
     user = User.new(email: create_params[:email])
@@ -12,9 +17,12 @@ class Api::V1::Auth::SignUpsController < ApplicationController
     render json: { message: "Confirmation email sent. Please check your inbox." }, status: :ok
   end
 
-  private
+    private
 
   def create_params
     params.require(:user).permit(:email)
+  end
+  end
+  end
   end
 end
