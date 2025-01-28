@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Authentication
   extend ActiveSupport::Concern
+  class AuthenticationError < StandardError; end
 
   included do
     before_action :require_authentication
-    helper_method :authenticated?
   end
 
   class_methods do
@@ -13,45 +15,53 @@ module Authentication
   end
 
   private
+
     def authenticated?
-      resume_session
+      Current.user.present?
     end
 
     def require_authentication
-      resume_session || request_authentication
+      raise AuthenticationError, "Unauthorized User" unless authenticate_user
     end
 
-
-    def resume_session
-      Current.session ||= find_session_by_cookie
+    def authenticate_user
+      token = request.headers["Authorization"]&.split(" ")&.last
+      payload = JsonWebToken.decode(token)
+      session = find_session(payload)
+      Current.session = session if session
     end
 
-    def find_session_by_cookie
-      Session.find_by(id: cookies.signed[:session_id])
+    def find_session(payload)
+      return unless payload
+
+      Session.find_by(id: payload[:session_id], user_id: payload[:user_id])
     end
 
-
-    def request_authentication
-      session[:return_to_after_authenticating] = request.url
-      redirect_to new_session_path
+    def generate_access_token(session)
+      payload = { user_id: session.user_id, session_id: session.id }
+      JsonWebToken.encode(payload, 15.minutes.from_now)
     end
 
-    def after_authentication_url
-      session.delete(:return_to_after_authenticating) || root_url
+    def generate_refresh_token(session)
+      payload = { user_id: session.user_id, session_id: session.id }
+      JsonWebToken.encode(payload, 1.month.from_now)
     end
 
+    def refresh_access_token(refresh_token)
+      payload = JsonWebToken.decode(refresh_token)
+      session = find_session(payload)
+      generate_access_token(session) if session
+    end
 
     def start_new_session_for(user)
-      user.sessions.create!(user_agent: request.user_agent,
-        ip_address: request.remote_ip).tap do |session|
-        Current.session = session
-        cookies.signed.permanent[:session_id] =
-          { value: session.id, httponly: true, same_site: :lax }
-      end
+      session = user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip)
+      Current.session = session
+      access_token = generate_access_token(session)
+      refresh_token = generate_refresh_token(session)
+      [ access_token, refresh_token ]
     end
 
     def terminate_session
-      Current.session.destroy
-      cookies.delete(:session_id)
+      Current.session&.destroy
     end
 end

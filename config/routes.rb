@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  resource :session
   resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -9,4 +10,18 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  namespace :api do
+    namespace :v1 do
+      namespace :auth do
+        resource :sign_in, only: :create
+        resource :sign_out, only: :destroy
+        resource :sign_up, only: :create
+        resources :sign_up, only: [], param: :token do
+          resource :callback, only: %i[create show], module: :sign_up
+        end
+        resource :password_reset, only: %i[create update]
+      end
+    end
+  end
 end
