@@ -72,6 +72,7 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
+          cache-dependency-path: './frontend'
 
       - name: Execute ESlint
         run: npm run lint
